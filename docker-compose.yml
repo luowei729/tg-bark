@@ -1,0 +1,18 @@
+services:
+  tg-bark:
+    build: .
+    container_name: tg-bark
+    restart: always
+    stdin_open: true
+    tty: true
+    environment:
+      - STATE_FILE=/app/data/state.json
+      - TG_SESSION=/app/data/tg_bark
+    volumes:
+      - ./.env:/app/.env:ro
+      - ./data:/app/data
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

@@ -700,5 +700,84 @@ Telegram -> Bark -> iPhone
 * 手机远程控制开关
 * 尽量保护隐私
 
+---
+
+# 二十二、Docker 部署（推荐）
+
+## 1. 准备配置文件
+
+```bash
+cp .env.example .env
+vi .env
+```
+
+填入你的真实配置。
+
+---
+
+## 2. 创建数据目录
+
+```bash
+mkdir -p data
+```
+
+---
+
+## 3. 首次交互登录
+
+首次运行需要交互式完成 Telegram 登录（输入手机号、验证码）：
+
+```bash
+docker compose run --rm tg-bark
+```
+
+登录成功后会生成 `./data/tg_bark.session`，以后无需重复登录。
+
+按 `Ctrl+C` 退出交互模式。
+
+---
+
+## 4. 后台启动
+
+```bash
+docker compose up -d
+```
+
+---
+
+## 5. 查看日志
+
+```bash
+docker compose logs -f
+```
+
+---
+
+## 6. 停止/重启
+
+```bash
+docker compose stop
+docker compose restart
+```
+
+---
+
+## 7. 代码更新后重新部署
+
+```bash
+git pull
+docker compose up -d --build
+```
+
+---
+
+## 8. 数据持久化说明
+
+| 文件 | 说明 |
+|------|------|
+| `./data/tg_bark.session` | Telegram 登录会话，无需重复登录 |
+| `./data/state.json` | Bark 推送开关状态 |
+| `./.env` | 配置文件（只读挂载，修改后需 `docker compose restart`） |
+
 ```
 ```
